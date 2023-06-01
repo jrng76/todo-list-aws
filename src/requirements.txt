@@ -1,1 +1,4 @@
-requests
+requests 
+urllib3<2
+
+

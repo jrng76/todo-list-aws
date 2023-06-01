@@ -20,6 +20,9 @@ Para utilizar SAM CLI se necesitan las siguientes herramientas:
 * [Python 3 installed](https://www.python.org/downloads/) - Se ha testeado con Python 3.7
 * Docker - [Install Docker community edition](https://hub.docker.com/search/?type=edition&offering=community)
 
+## Problema con Python 3.7 y la biblioteca urllib3
+Solución: Editar el fichero requeriments.txt y añadir **urllib3==1.26.15** o **urllib3<2** 
+
 ### Para **construir** la aplicación se deberá ejecutar el siguiente comando:
 ```bash
 sam build
@@ -84,7 +87,7 @@ sam local start-api --port 8081 --env-vars localEnvironment.json --docker-networ
 
 Se pueden consultar en CloudWath o ejecutando un comando similar al siguiente:
 ```bash
-sam logs -n GetTodoFunction --stack-name todo-list-aws-staging
+sam logs -n GetTodoFunction --stack-name todo-list-aws-staging --region us-east-1
 ```
 
 ## Tests
@@ -131,7 +134,7 @@ Para la implementación del CI/CD de la aplicación se utilizan los siguientes P
 Para borrar la apliación y eliminar los stacks creados ejecutar los siguientes comandos:
 
 ```bash
-aws cloudformation delete-stack --stack-name todo-list-aws-staging
-aws cloudformation delete-stack --stack-name todo-list-aws-production
+aws cloudformation delete-stack --stack-name todo-list-aws-staging --region us-east-1
+aws cloudformation delete-stack --stack-name todo-list-aws-production --region us-east-1
 ```
 
