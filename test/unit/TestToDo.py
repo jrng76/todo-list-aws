@@ -57,7 +57,18 @@ class TestDatabaseFunctions(unittest.TestCase):
         #self.assertIn('todoTable', self.table_local.name)
         print ('End: test_table_exists')
         
-
+    def test_table_none(self):
+        print ('---------------------')
+        print ('Start: test_table_none')
+        from src.todoList import get_table
+        resultesperado = "dynamodb.Table(name='todoUnitTestsTable')"
+        # Testing file functions
+        # Table mock
+        result = get_table()
+        print ('Response GetTable' + str(result))
+        self.assertEqual(str(result),resultesperado)
+        print ('End: test_table_none')
+        
     def test_put_todo(self):
         print ('---------------------')
         print ('Start: test_put_todo')
@@ -78,7 +89,7 @@ class TestDatabaseFunctions(unittest.TestCase):
         # Testing file functions
         from src.todoList import put_item
         # Table mock
-        self.assertRaises(Exception, put_item("", self.dynamodb))
+        #self.assertRaises(Exception, put_item("", self.dynamodb))
         self.assertRaises(Exception, put_item("", self.dynamodb))
         print ('End: test_put_todo_error')
 
@@ -129,14 +140,13 @@ class TestDatabaseFunctions(unittest.TestCase):
         self.assertTrue(result[0]['text'] == self.text)
         print ('End: test_list_todo')
 
-
     def test_update_todo(self):
         print ('---------------------')
         print ('Start: test_update_todo')
         from src.todoList import put_item
         from src.todoList import update_item
         from src.todoList import get_item
-        updated_text = "Aprender más cosas que DevOps y Cloud en la UNIR"
+        updated_text = "Aprender mas cosas que DevOps y Cloud en la UNIR"
         # Testing file functions
         # Table mock
         responsePut = put_item(self.text, self.dynamodb)
@@ -156,7 +166,7 @@ class TestDatabaseFunctions(unittest.TestCase):
         print ('Start: atest_update_todo_error')
         from src.todoList import put_item
         from src.todoList import update_item
-        updated_text = "Aprender más cosas que DevOps y Cloud en la UNIR"
+        updated_text = "Aprender mas cosas que DevOps y Cloud en la UNIR"
         # Testing file functions
         # Table mock
         responsePut = put_item(self.text, self.dynamodb)
