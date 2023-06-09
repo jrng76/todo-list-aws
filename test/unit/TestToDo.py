@@ -219,5 +219,24 @@ class TestDatabaseFunctions(unittest.TestCase):
         self.assertRaises(TypeError, delete_item("", self.dynamodb))
         print ('End: test_delete_todo_error')
 
+    def test_translate_todo(self):
+        print ('---------------------')
+        print ('Start: test_translate_todo')
+        from src.todoList import gettranslate_todo_text
+        from src.todoList import put_item
+        # Testing file functions
+        # Table mock
+        text_es = "juega y gana"
+        responsePut = put_item(text_es, self.dynamodb)
+        print ('Response PutItem' + str(responsePut))
+        idItem = json.loads(responsePut['body'])['id']
+        textItem = json.loads(responsePut['body'])['text']
+        print ('Id item:' + idItem)
+        print ('Text item:' + textItem)
+        responsetraslate = gettranslate_todo_text(idItem,"en", self.dynamodb)
+
+        self.assertEqual(responsetraslate, 'play and win')
+        print ('End: test_translate_todo')
+
 if __name__ == '__main__':
     unittest.main()

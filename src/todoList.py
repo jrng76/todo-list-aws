@@ -15,7 +15,7 @@ def get_table(dynamodb=None):
             boto3.client = functools.partial(boto3.client, endpoint_url=URL)
             boto3.resource = functools.partial(boto3.resource,
                                                endpoint_url=URL)
-        dynamodb = boto3.resource("dynamodb")
+        dynamodb = boto3.resource("dynamodb", region_name='us-east-1')
     # fetch todo from the database
     table = dynamodb.Table(os.environ['DYNAMODB_TABLE'])
     return table
@@ -146,3 +146,30 @@ def create_todo_table(dynamodb):
         raise AssertionError()
 
     return table
+
+
+def gettranslate_todo_text(key, lenguage, dynamodb=None):
+    table = get_table(dynamodb)
+    print('Id del registro: '+key)
+    print('Traducir al lenguaje: '+lenguage)
+    try:
+        result = table.get_item(
+            Key={
+                'id': key
+            }
+        )
+        # print('Resultado del GET:'+str(result))
+        print('Texto a traducir:'+result['Item']['text'])
+    except ClientError as e:
+        print('Error (get_item):'+e.response['Error']['Message'])
+    else:
+        print('Result getItem(gettranslate) : '+str(result))
+        if 'Item' in result:
+            print('Creo el objeto translate y traduzco la frase.')
+            translate = boto3.client(service_name='translate',
+                                     region_name='us-east-1',
+                                     use_ssl=True)
+            tresult = translate.translate_text(Text=result['Item']['text'],
+                                               SourceLanguageCode="es",
+                                               TargetLanguageCode=lenguage)
+            return tresult.get('TranslatedText')
