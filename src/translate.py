@@ -1,5 +1,5 @@
 import todoList
-
+import json
 
 def translate(event, context):
     # create a response
@@ -9,7 +9,7 @@ def translate(event, context):
                                          event['pathParameters']['language'])
     if re != "":
         response = {
-            "statusCode": 200, "body": re
+            "statusCode": 200, "body": json.dumps({"translation": re})
         }
     else:
         response = {

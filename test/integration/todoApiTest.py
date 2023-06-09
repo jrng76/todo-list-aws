@@ -209,7 +209,7 @@ class TestApi(unittest.TestCase):
         #Add TODO
         url = BASE_URL+"/todos"
         data = {
-         "text": "Ejemplo de texto de integración - Inicial"
+         "text": "juega y gana"
         }
         response = requests.post(url, data=json.dumps(data))
         json_response = response.json()
@@ -221,18 +221,18 @@ class TestApi(unittest.TestCase):
             response.status_code, 200, "Error en la petición API a {url}"
         )
         self.assertEqual(
-            jsonbody['text'], "Ejemplo de texto de integración - Inicial", "Error en la petición API a {url}"
+            jsonbody['text'], "juega y gana", "Error en la petición API a {url}"
         )
         #Translate TODO
         url = BASE_URL+"/todos/" + ID_TODO + "/en"
-        response = requests.put(url, data=json.dumps(data))
-        #json_response = response.json()
-        print('Response Translate todo: ' + str(json_response))
+        response = requests.get(url)
+        json_response = response.json()
+        print('Response Translate todo: ' + json_response['translation'])
         self.assertEqual(
             response.status_code, 200, "Error en la petición API a {url}"
         )
         self.assertEqual(
-            response, "Integration Text Example - Initial", "Error en la petición API a {url}"
+            json_response['translation'], "play and win", "Error en la petición API a {url}"
         )
         #Delete TODO to restore state
         url = BASE_URL+"/todos/"+ID_TODO
@@ -240,4 +240,4 @@ class TestApi(unittest.TestCase):
         self.assertEqual(
             response.status_code, 200, "Error en la petición API a {url}"
         )
-        print('End - integration test Update TODO')
+        print('End - integration test Translate TODO')

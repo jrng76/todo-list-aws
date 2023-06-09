@@ -238,5 +238,18 @@ class TestDatabaseFunctions(unittest.TestCase):
         self.assertEqual(responsetraslate, 'play and win')
         print ('End: test_translate_todo')
 
+
+    def test_translate_todo_error(self):
+        print ('---------------------')
+        print ('Start: test_translate_todo_error')
+        from src.todoList import gettranslate_todo_text
+        
+        self.assertRaises(Exception,
+                          gettranslate_todo_text("","en", self.dynamodb))
+        self.assertRaises(Exception,
+                          gettranslate_todo_text(self.uuid,"", self.dynamodb))
+        print ('End: test_translate_todo_error')
+
+
 if __name__ == '__main__':
     unittest.main()

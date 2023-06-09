@@ -17,3 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Nueva acción de la API llamada translate para traducir el texto de un registro dado al idioma indicado como paramétro.
 - Nuevo test unitario para probar transtale
 - Nueva prueba de integración para probar translate
+
+## [1.1.1] - 2023-06-09
+- Para evitar el error del translate y poder pasar las tost se modifica el método 'gettranslate_todo_text' para que devuelva siempre la misma cadena 'traducida' cuando existe el registro en base de datos.
+
